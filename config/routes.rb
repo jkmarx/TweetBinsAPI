@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :user_authentications, except: [:new, :edit]
   resources :followers, except: [:new, :edit]
   resources :categories, except: [:new, :edit]
   resources :users, except: [:new, :edit]
