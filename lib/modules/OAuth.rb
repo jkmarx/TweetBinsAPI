@@ -32,15 +32,18 @@ module OAuth
     header.slice(0..-3)
   end
 
+  def self.collect_parameters(hash)
+    hash.sort.collect{ |k, v| "#{OAuth::url_encode(k.to_s)}=#{OAuth::url_encode(v)}" }.join('&')
+  end
 
   class RequestToken
     attr_accessor :consumer_key, :consumer_secret, :base_url, :timstamp, :callback, :params
 
-    def initialize(user_token)
+    def initialize()
       @consumer_key = ENV['TWITTER_CONSUMER_KEY']
       @consumer_secret = ENV['TWITTER_CONSUMER_SECRET']
       @timestamp = Time.now.utc.to_i.to_s
-      @callback = 'http://localhost:3000/users/auth/twitter/callback?user-token=' + "#{user_token}&provider=#{twitter}"
+      @callback = 'http://localhost:3000/users'
       @params = {
         oauth_callback: "#{@callback}",
         oauth_consumer_key: "#{ENV['TWITTER_CONSUMER_KEY']}",
@@ -61,10 +64,6 @@ module OAuth
       end
       response
     end
-  end
-
-  def self.collect_parameters(hash)
-    hash.sort.collect{ |k, v| "#{OAuth::url_encode(k.to_s)}=#{OAuth::url_encode(v)}" }.join('&')
   end
 
 end

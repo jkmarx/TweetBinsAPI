@@ -3,11 +3,15 @@ Rails.application.routes.draw do
     resources :categories, only: [:index, :show]
   end
 
-  get '/user/:twitterUsername', to: "users#show"
+ # get '/user/:twitterUsername', to: "users#show"
+
+ match '/callbacks' => 'callbacks#request_token', via: [:get,:post]
+
+ match '/callbacks/twitter' => 'callbacks#twitter_callback', via: [:get, :post]
 
   resources :categories, only: [:create, :destroy]
 
-  resources :followers, except: [:new, :edit]
+  # resources :followers, except: [:new, :edit]
 
   # Example resource route with options:
   #   resources :products do
