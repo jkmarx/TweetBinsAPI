@@ -31,7 +31,7 @@ describe 'User request' do
 
    describe '#show' do
     it 'should retrieve a single user by id and return json' do
-      get "/users/#{@user.twitterUsername}"
+      get "/users/#{@user.id}"
       expect(response).to be_success
 
       user = JSON.parse(response.body)
@@ -52,7 +52,7 @@ describe 'User request' do
       expect(response.content_type).to be Mime::JSON
 
       user = JSON.parse(response.body)
-      expect(usre['twitterUsername']).to eq "danceStar"
+      expect(user['twitterUsername']).to eq "danceStar"
     end
   end
 
