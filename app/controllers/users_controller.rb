@@ -5,14 +5,15 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
-
-    render json: @users
+    byebug;
+    render json: @users, status: 200
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
-    render json: @user
+    @user = User.find(params[:id])
+    render json: @user, status: 200
   end
 
   # POST /users

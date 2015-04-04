@@ -10,6 +10,7 @@ gem 'spring', :group => :development
 gem 'rack-cors', require: 'rack/cors'
 gem 'pg'
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
+gem 'bcrypt'
 
 group :development, :test do
   gem 'dotenv-rails'
