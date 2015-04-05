@@ -11,7 +11,8 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'pg'
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 gem 'bcrypt'
- gem 'rack-ssl-enforcer'
+gem 'rack-ssl-enforcer'
+gem 'activerecord-session_store'
 
 group :development, :test do
   gem 'dotenv-rails'

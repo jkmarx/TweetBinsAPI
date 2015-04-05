@@ -14,13 +14,26 @@ class CallbacksController < ApplicationController
     token_params = fullpath.match(/oauth_token=\w+/)[0]
     oauth_verifier = fullpath.match(/oauth_verifier=\w+/)[0]
     @request = OAuth::AccessToken.new({params: token_params + '&' + oauth_verifier})
-    byebug;
     response = @request.request_data(OAuth::get_header_string('access_token',@request.params), OAuth::get_base_url('access_token'),
       'POST',@request.data)
-    byebug;
-    hash = convertToHash(response.body)
+    # hash = convertToHash(response.body)
+    if(response.code == "200" || response.message == "OK")
+    getSessionStart(response.body)
     redirect_to "http://localhost:9000/#/dashboard"
+    else
+    redirect_to "http://localhost:9000/#/login"
+    end
+  end
+
+  def getSessionStart(data)
     byebug;
+  authorized_token = data.match(/(?:oauth_token=)([\w\-]+)/)[0]
+  token_secret = data.match(/(?:oauth_token_secret=)(\w+)/)[0]
+  twitter_user_id = data.match(/(?:user_id=)(\d+)/)[0]
+  twitter_screen_name = data.match(/(?:screen_name=)(.+)/)[0]
+  session[:twitterUserId] = twitter_user_id
+  session[:twitterUsername] = twitter_screen_name
+
   end
 
   def convertToHash(string)
