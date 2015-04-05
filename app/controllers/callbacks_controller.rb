@@ -33,7 +33,10 @@ class CallbacksController < ApplicationController
   twitter_screen_name = data.match(/(?:screen_name=)(.+)/)[0]
   session[:twitterUserId] = twitter_user_id
   session[:twitterUsername] = twitter_screen_name
-
+  session[:authorizedToken] = authorized_token
+  session[:tokenSecret] = token_secret
+  session[:userId] = User.where(:twitterUsername => twitter_screen_name)
+  byebug;
   end
 
   def convertToHash(string)

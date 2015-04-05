@@ -4,6 +4,8 @@ class AddSessionsTable < ActiveRecord::Migration
       t.string :session_id, :null => false
       t.string :twitterUsername
       t.string :twitterUserId
+      t.string :authorizedToken
+      t.string :tokenSecret
       t.text :data
       t.timestamps
     end

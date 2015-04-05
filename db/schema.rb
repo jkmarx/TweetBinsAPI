@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(version: 20150405153216) do
     t.string   "session_id",      null: false
     t.string   "twitterUsername"
     t.string   "twitterUserId"
+    t.string   "authorizedToken"
+    t.string   "tokenSecret"
     t.text     "data"
     t.datetime "created_at"
     t.datetime "updated_at"
