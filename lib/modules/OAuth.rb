@@ -43,7 +43,7 @@ module OAuth
       @consumer_key = ENV['TWITTER_CONSUMER_KEY']
       @consumer_secret = ENV['TWITTER_CONSUMER_SECRET']
       @timestamp = Time.now.utc.to_i.to_s
-      @callback = 'http://localhost:3000/users'
+      @callback = 'http://localhost:3000/callbacks/twitter'
       @params = {
         oauth_callback: "#{@callback}",
         oauth_consumer_key: "#{ENV['TWITTER_CONSUMER_KEY']}",
@@ -63,6 +63,37 @@ module OAuth
         response, data = http.get(url.to_s, { 'Authorization' => header })
       end
       response
+    end
+  end
+
+  class AccessToken
+    attr_accessor :data
+
+    def initialize(data)
+      @consumer_key = ENV['TWITTER_CONSUMER_KEY']
+      @consumer_secret = ENV['TWITTER_CONSUMER_SECRET']
+      @timestamp = Time.now.utc.to_i.to_s
+      @data = data
+      @params = {
+        oauth_consumer_key: "#{ENV['TWITTER_CONSUMER_KEY']}",
+        oauth_nonce: "#{SecureRandom.uuid.gsub(/\-|\n|\r/,'')}",
+        oauth_signature_method: "HMAC-SHA1",
+        oauth_timestamp: "#{@timestamp}",
+        oauth_version: "1.0"
+      }
+      byebug;
+    end
+
+    def request_data(header, base_uri, method, post_data=nil)
+      url = URI.parse(base_uri)
+      http = Net::HTTP.new(url.host, 443)
+      http.use_ssl = true
+      if method == 'POST'
+        resp, data = http.post(base_uri, post_data[:params], { 'Content-Type'=> '', 'Authorization' => header })
+      else
+        resp, data = http.get(url.to_s, { 'Authorization' => header })
+      end
+      resp
     end
   end
 
