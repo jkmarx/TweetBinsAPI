@@ -1,5 +1,4 @@
 require Rails.root.join('lib/modules/OAuth')
-
 class CallbacksController < ApplicationController
 
   def request_token()
@@ -11,14 +10,16 @@ class CallbacksController < ApplicationController
   end
 
   def twitter_callback
-    byebug;
     fullpath = request.fullpath
     token_params = fullpath.match(/oauth_token=\w+/)[0]
     oauth_verifier = fullpath.match(/oauth_verifier=\w+/)[0]
     @request = OAuth::AccessToken.new({params: token_params + '&' + oauth_verifier})
-    response = @request.request_data(@request.get_header_string, OAuth::get_base_url('access_token'),
+    byebug;
+    response = @request.request_data(OAuth::get_header_string('access_token',@request.params), OAuth::get_base_url('access_token'),
       'POST',@request.data)
+    byebug;
     hash = convertToHash(response.body)
+    redirect_to "http://localhost:9000/#/dashboard"
     byebug;
   end
 
@@ -29,13 +30,6 @@ class CallbacksController < ApplicationController
     }
   end
 
-  def self.get_header_string(param_url, param_hash)
-    hash = OAuth::add_signature_to_params(param_hash,OAuth::calculate_signature(param_url,param_hash))
-    header = "OAuth "
-    hash.sort.each do |k,v|
-      header << "#{k}=\"#{OAuth::url_encode(v)}\", "
-    end
-    header.slice(0..-3)
-  end
+
 
 end

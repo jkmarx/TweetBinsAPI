@@ -37,7 +37,7 @@ module OAuth
   end
 
   class RequestToken
-    attr_accessor :consumer_key, :consumer_secret, :base_url, :timstamp, :callback, :params
+    attr_accessor :consumer_key, :consumer_secret, :base_url, :timestamp, :callback, :params
 
     def initialize()
       @consumer_key = ENV['TWITTER_CONSUMER_KEY']
@@ -67,7 +67,7 @@ module OAuth
   end
 
   class AccessToken
-    attr_accessor :data
+    attr_accessor :data, :params
 
     def initialize(data)
       @consumer_key = ENV['TWITTER_CONSUMER_KEY']
@@ -81,19 +81,19 @@ module OAuth
         oauth_timestamp: "#{@timestamp}",
         oauth_version: "1.0"
       }
-      byebug;
     end
 
     def request_data(header, base_uri, method, post_data=nil)
+      byebug;
       url = URI.parse(base_uri)
       http = Net::HTTP.new(url.host, 443)
       http.use_ssl = true
       if method == 'POST'
-        resp, data = http.post(base_uri, post_data[:params], { 'Content-Type'=> '', 'Authorization' => header })
+        response, data = http.post(base_uri, post_data[:params], { 'Content-Type'=> '', 'Authorization' => header })
       else
-        resp, data = http.get(url.to_s, { 'Authorization' => header })
+        response, data = http.get(url.to_s, { 'Authorization' => header })
       end
-      resp
+      response
     end
   end
 
