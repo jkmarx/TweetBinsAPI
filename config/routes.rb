@@ -14,4 +14,6 @@ resources :sessions, only: [:create, :destroy]
 
   resources :categories, only: [:create, :destroy]
 
+match '/tweets' => 'tweets#index', via: [:get]
+
 end
