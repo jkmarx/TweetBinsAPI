@@ -3,7 +3,7 @@ class CreateUsers < ActiveRecord::Migration
     create_table :users do |t|
       t.string :twitterUsername
       t.string :twitterUserId
-      t.string :appToken
+      t.string :token
       t.string :accessToken, default: :null
       t.string :secretToken, default: :null
       t.timestamps null: false

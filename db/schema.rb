@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20150403194746) do
   create_table "users", force: :cascade do |t|
     t.string   "twitterUsername"
     t.string   "twitterUserId"
-    t.string   "appToken"
+    t.string   "token"
     t.string   "accessToken",     default: "null"
     t.string   "secretToken",     default: "null"
     t.datetime "created_at",                       null: false
