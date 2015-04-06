@@ -1,4 +1,4 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :twitterUsername
+  attributes :id, :twitterUsername, :twitterUserId, :appToken
 
 end

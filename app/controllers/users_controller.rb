@@ -1,11 +1,20 @@
 class UsersController < ApplicationController
+  before_filter :authenticate, only: [:show, :update]
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
   # GET /users.json
-  def index
-    @users = User.all
-    render json: @users, status: 200
+  # def index
+  #   @users = User.all
+  #   render json: @users, status: 200
+  # end
+
+  def getAccess
+    @user = User.find_by(:twitterUsername)
+    if @user && @user.authenticate(params[:twitterUserId])
+      render json: { appToken: @user.appToken, @user.twitterUsername }
+    else
+      head :unauthorized
   end
 
   # GET /users/1
@@ -20,9 +29,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      render json: @user, status: :created, location: @user
+      render json: {appToken: @user.token, twitterUsername: @user.twitterUsername}, status: :created, location: @user
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: {message: 'failed'}, status: 500
     end
   end
 
@@ -32,7 +41,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if @user.update(user_params)
-      render json: @user, status: :ok
+      render json: {appToken: @user.token, twitterUsername: @user.twitterUsername}, status: :ok
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -53,6 +62,6 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:twitterUsername)
+      params.require(:user).permit(:twitterUsername, :twitterUserId, :appToken, :accessToken, :tokenSecret)
     end
 end
