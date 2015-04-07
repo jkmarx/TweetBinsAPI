@@ -18,28 +18,20 @@ class CallbacksController < ApplicationController
       'POST',@request.data)
 
     if(response.code == "200" || response.message == "OK")
-      getSession(response.body)
-       byebug;
-      # redirect_to "http://localhost:9000/#/dashboard"
+      setUser(response.body)
+      redirect_to "http://localhost:9000/#/loginApp"
     else
       redirect_to "http://localhost:9000/#/login"
     end
   end
 
-  def getSession(data)
+  def setUser(data)
     authorized_token = data.match(/(?:oauth_token=)([\w\-]+)/)[0]
     token_secret = data.match(/(?:oauth_token_secret=)(\w+)/)[0]
     twitter_user_id = data.match(/(?:user_id=)(\d+)/)[0]
     twitter_screen_name = data.match(/(?:screen_name=)(.+)/)[0]
-
-     session = Session.new
-     session[:session_id] = (User.find_by twitterUsername: twitter_screen_name.split('=')[1]).id
-    # session[:twitterUserId] = twitter_user_id.split('=')[1]
-    # session[:twitterUsername] = twitter_screen_name.split('=')[1]
-    # session[:authorizedToken] = authorized_token
-    # session[:tokenSecret] = token_secret
-    session[:data]=authorized_token + '&' + token_secret + '&' + twitter_user_id + '&' + twitter_screen_name
-    byebug;
+    user = User.find_by twitterUsername: twitter_screen_name.split('=')[1]
+    user.update(accessToken: authorized_token, tokenSecret: token_secret)
   end
 
 end

@@ -2,15 +2,17 @@ class User < ActiveRecord::Base
   has_many :categories
 
 
-  validates_uniqueness_of :twitterUsername, :twitterUserId
+  has_secure_password
+
+  validates_uniqueness_of :twitterUsername, :email
 
   before_create :generate_token
 
   def generate_token
-    return if appToken.present?
+    return if token.present?
     begin
-      self.appToken = SecureRandom.uuid.gsub(/\-/,'')
-    end while self.class.exists?(appToken: appToken)
+      self.token = SecureRandom.uuid.gsub(/\-/,'')
+    end while self.class.exists?(token: token)
   end
 end
 

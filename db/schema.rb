@@ -35,11 +35,12 @@ ActiveRecord::Schema.define(version: 20150403194746) do
   add_index "followers", ["category_id"], name: "index_followers_on_category_id", using: :btree
 
   create_table "users", force: :cascade do |t|
+    t.string   "email"
+    t.string   "password_digest"
+    t.string   "token"
     t.string   "twitterUsername"
-    t.string   "twitterUserId"
-    t.string   "appToken"
     t.string   "accessToken",     default: "null"
-    t.string   "secretToken",     default: "null"
+    t.string   "tokenSecret",     default: "null"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
   end
