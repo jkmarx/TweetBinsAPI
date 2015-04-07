@@ -27,5 +27,3 @@ def parse_text(data)
     byebug;
   }
 end
-
-# curl --get 'https://api.twitter.com/1.1/statuses/home_timeline.json' --header 'Authorization: OAuth oauth_consumer_key="B0QBJGLd6NeHMrOHATSm5luAF", oauth_nonce="5829855bdd534a5f8965e784d3d4c47f", oauth_signature="rUzwmThVvObGweLe%2BvqRIvAZf0Q%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1428420767", oauth_token="2993886084-58xam6y3NipJl9X3aKm2F6tEDDihv5BK7sbS6bZ", oauth_version="1.0"' --verbose
