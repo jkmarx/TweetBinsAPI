@@ -2,7 +2,9 @@ class User < ActiveRecord::Base
   has_many :categories
 
 
-  validates_uniqueness_of :twitterUsername, :twitterUserId
+  has_secure_password
+
+  validates_uniqueness_of :twitterUsername, :email
 
   before_create :generate_token
 

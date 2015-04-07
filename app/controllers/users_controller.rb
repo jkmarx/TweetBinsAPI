@@ -9,12 +9,13 @@ class UsersController < ApplicationController
   #   render json: @users, status: 200
   # end
 
-  def getAccess
-    @user = User.find_by(:twitterUsername)
-    if @user && @user.authenticate(params[:twitterUserId])
-      render json: { token: @user.token, @user.twitterUsername }
+  def login
+    @user = User.find_by(email: params[:email])
+    if @user && @user.authenticate(params[:password])
+      render json: { token: @user.token, email: @user.email }
     else
       head :unauthorized
+    end
   end
 
   # GET /users/1
@@ -51,7 +52,6 @@ class UsersController < ApplicationController
   # DELETE /users/1.json
   def destroy
     @user.destroy
-
     head :no_content
   end
 
@@ -62,6 +62,6 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:twitterUsername, :twitterUserId, :token, :accessToken, :tokenSecret)
+      params.require(:user).permit(:twitterUsername, :email,:password, :token, :accessToken, :tokenSecret)
     end
 end

@@ -32,6 +32,7 @@ module OAuth
     header.slice(0..-3)
   end
 
+
   def self.collect_parameters(hash)
     hash.sort.collect{ |k, v| "#{OAuth::url_encode(k.to_s)}=#{OAuth::url_encode(v)}" }.join('&')
   end
@@ -57,12 +58,12 @@ module OAuth
       url = URI.parse(base_uri)
       http = Net::HTTP.new(url.host, 443)
       http.use_ssl = true
+      byebug;
       if method == 'POST'
         response, data = http.post(base_uri, post_data, { 'Content-Type'=> '', 'Authorization' => header })
       else
         response, data = http.get(url.to_s, { 'Authorization' => header })
       end
-      response
     end
   end
 
@@ -95,5 +96,4 @@ module OAuth
       response
     end
   end
-
 end
