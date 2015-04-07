@@ -58,7 +58,6 @@ module OAuth
       url = URI.parse(base_uri)
       http = Net::HTTP.new(url.host, 443)
       http.use_ssl = true
-      byebug;
       if method == 'POST'
         response, data = http.post(base_uri, post_data, { 'Content-Type'=> '', 'Authorization' => header })
       else

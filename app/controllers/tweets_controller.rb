@@ -1,29 +1,49 @@
-require Rails.root.join('lib/modules/OAuth')
-require Rails.root.join('lib/modules/Tweets')
+require Rails.root.join('lib/modules/TweetAuth')
 
 class TweetsController < ApplicationController
   before_filter :authenticate, only: [ :show, :create, :update, :destroy]
 
   def index
     user = authenticate()
-    fullpath = request.fullpath
     token = user.accessToken.split('=')[1]
     tokenSecret = user.tokenSecret.split('=')[1]
-    @request = Tweets::AuthHeader.new(token, {params: user.tokenSecret})
-    response = @request.request_data(Tweets::get_header_string(tokenSecret, @request.params),Tweets::get_base_url(),"GET")
-    parse_text(data)
+    @request = TweetAuth::AuthHeader.new(token)
+
+    response = @request.request_data(TweetAuth::get_header_string(tokenSecret, @request.params),TweetAuth::get_base_url(),"GET")
+    byebug;
     if response.body
-      render json: response.body, status: 200
+      outTweets = filterTweets(JSON.parse(response.body)).to_json
+
+      render json: outTweets, status: 200
     else
       render status: 401
     end
+
   end
+
+  private
+
+  def filterTweets(data)
+    data.map{|tweet|
+      {
+        userScreen: getScreenname(tweet),
+        text: getText(tweet),
+        created_at: getCreatedAt(tweet)
+      }
+    }
+  end
+
+  def getScreenname(string)
+    string["user"]["screen_name"]
+  end
+
+  def getText(string)
+    string["text"]
+  end
+
+  def getCreatedAt(string)
+    string["created_at"]
+  end
+
 end
 
-private
-def parse_text(data)
-  data.map{ |tweet|
-
-    byebug;
-  }
-end

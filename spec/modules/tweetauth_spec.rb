@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'spec_helper'
 require 'net/http'
 require 'uri'
-require File.join(Rails.root, "lib/modules/Tweets.rb")
+require File.join(Rails.root, "lib/modules/TweetAuth.rb")
 
 describe Tweets do
   let(:timestamp) {'1428415488'}
@@ -21,26 +21,26 @@ describe Tweets do
 
   describe 'Tweets::get_base_url' do
     it 'returns the base url for requesting tweets' do
-      expect(Tweets::get_base_url()).to eq "https://api.twitter.com/1.1/statuses/home_timeline.json"
+      expect(TweetAuth::get_base_url()).to eq "https://api.twitter.com/1.1/statuses/home_timeline.json"
     end
   end
 
-  describe 'Tweets::url_encode' do
+  describe 'TweetAuth::url_encode' do
     it 'encodes the string' do
-      expect(Tweets::url_encode("http://localhost:3000/users/jenniferkmarx")).to eq "http%3A%2F%2Flocalhost%3A3000%2Fusers%2Fjenniferkmarx"
+      expect(TweetAuth::url_encode("http://localhost:3000/users/jenniferkmarx")).to eq "http%3A%2F%2Flocalhost%3A3000%2Fusers%2Fjenniferkmarx"
     end
   end
 
 
-    describe 'Tweets::create_signature' do
+    describe 'TweetAuth::create_signature' do
       it 'returns Base64 encoded signature' do
-        expect(Tweets::create_signature(tokenSecret,request_params)).to eq 'QY0TKyp8bTeHgWex/qOl3zFSMsA='
+        expect(TweetAuth::create_signature(tokenSecret,request_params)).to eq 'QY0TKyp8bTeHgWex/qOl3zFSMsA='
       end
     end
 
-    describe 'Tweets::get_header_string' do
+    describe 'TweetAuth::get_header_string' do
       it 'converts a hash to a string' do
-        expect(Tweets::get_header_string(tokenSecret,request_params)).to eq "OAuth oauth_consumer_key=\"B0QBJGLd6NeHMrOHATSm5luAF\", oauth_nonce=\"3a316d8038824b10b3fd2ac051d2ba9b\", oauth_signature=\"QY0TKyp8bTeHgWex%2FqOl3zFSMsA%3D\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"1428415488\", oauth_token=\"2993886084-58xam6y3NipJl9X3aKm2F6tEDDihv5BK7sbS6bZ\", oauth_version=\"1.0\""
+        expect(TweetAuth::get_header_string(tokenSecret,request_params)).to eq "OAuth oauth_consumer_key=\"B0QBJGLd6NeHMrOHATSm5luAF\", oauth_nonce=\"3a316d8038824b10b3fd2ac051d2ba9b\", oauth_signature=\"QY0TKyp8bTeHgWex%2FqOl3zFSMsA%3D\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"1428415488\", oauth_token=\"2993886084-58xam6y3NipJl9X3aKm2F6tEDDihv5BK7sbS6bZ\", oauth_version=\"1.0\""
       end
     end
   end
