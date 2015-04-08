@@ -1,13 +1,25 @@
+require Rails.root.join('lib/modules/TweetAuth')
 class FollowersController < ApplicationController
   before_action :set_follower, only: [:show, :update, :destroy]
-
+   before_filter :authenticate, only: [ :index]
   # GET /followers
   # GET /followers.json
   def index
-    user = authenticate()
-    @followers = Follower.all
-
-    render json: @followers
+    @user = User.first
+    followers = Rails.cache.read(@user.token + "_followers")
+    if followers
+      render json: followers, status: 200
+    else
+      @request = TweetAuth::AuthHeader.new(get_token())
+      response = @request.request_data(TweetAuth::get_header_string(get_tokenSecret(), @request.params, "followers"),TweetAuth::get_base_url("followers"),"GET")
+      if !(response.body.include? "errors")
+        followerIds = Follower.filterTweets(response.body).to_json
+        Rails.cache.write(@user.token + "followers", followerIds)
+        render json: followerIds, status: 200
+      else
+        render json: response, status: 401
+      end
+    end
   end
 
   # GET /followers/1
@@ -56,5 +68,17 @@ class FollowersController < ApplicationController
 
     def follower_params
       params.require(:follower).permit(:twitterHandle, :category_id)
+    end
+
+     private
+
+    def get_token()
+      @user.accessToken.split('=')[1]
+     # User.first.accessToken.split('=')[1]
+    end
+
+    def get_tokenSecret()
+      @user.tokenSecret.split('=')[1]
+     # User.first.tokenSecret.split('=')[1]
     end
 end

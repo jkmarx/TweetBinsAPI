@@ -3,13 +3,6 @@ class UsersController < ApplicationController
   before_filter :authenticate, only: [:show, :update]
   before_action :set_user, only: [:show, :update, :destroy]
 
-  # GET /users
-  # GET /users.json
-  # def index
-  #   @users = User.all
-  #   render json: @users, status: 200
-  # end
-
   def login
     @user = User.find_by(email: params[:email])
     if @user && @user.authenticate(params[:password])

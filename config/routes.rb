@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :users, defaults: {format: :json}, except: [:index, :new, :edit] do
-    resources :categories, only: [:index, :show]
-  end
+  resources :users, defaults: {format: :json}, except: [:index, :new, :edit]
+
+  resources :followers, only: [:index]
 
   post '/login', to: 'users#login'
   get '/logout', to: 'users#logout'
@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 resources :sessions, only: [:create, :destroy]
  match '/signout' => 'sessions#destroy', via: [:get, :post]
 
-  resources :categories, only: [:create, :destroy]
+resources :categories
 
 match '/tweets' => 'tweets#index', via: [:get]
 

@@ -1,11 +1,13 @@
 class CategoriesController < ApplicationController
   before_action :set_category, only: [:show, :update, :destroy]
 
+
   # GET /categories
   # GET /categories.json
   def index
-    @categories = Category.all
-
+    byebug;
+    @user = User.first
+    @categories = @user.categories
     render json: @categories
   end
 
@@ -54,6 +56,6 @@ class CategoriesController < ApplicationController
     end
 
     def category_params
-      params.require(:category).permit(:name, :user_id)
+      params.require(:category).permit(:name, :user_id, followers: [])
     end
 end

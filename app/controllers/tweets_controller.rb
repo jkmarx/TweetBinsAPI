@@ -1,14 +1,14 @@
 require Rails.root.join('lib/modules/TweetAuth')
 class TweetsController < ApplicationController
-  before_filter :authenticate, only: [ :index]
+  # before_filter :authenticate, only: [ :index]
 
   def index
-    tweets = Rails.cache.read(@user.token + "_tweets")
+    tweets = Rails.cache.read(User.first.token + "_tweets")
     if tweets
       render json: tweets, status: 200
     else
       @request = TweetAuth::AuthHeader.new(get_token())
-      response = @request.request_data(TweetAuth::get_header_string(get_tokenSecret(), @request.params),TweetAuth::get_base_url(),"GET")
+      response = @request.request_data(TweetAuth::get_header_string(get_tokenSecret(), @request.params, "tweets"),TweetAuth::get_base_url("tweets"),"GET")
 
       if !(response.body.include? "errors")
         outTweets = Tweet.filterTweets(response.body).to_json

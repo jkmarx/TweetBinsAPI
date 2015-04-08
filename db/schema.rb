@@ -26,10 +26,10 @@ ActiveRecord::Schema.define(version: 20150403194746) do
   add_index "categories", ["user_id"], name: "index_categories_on_user_id", using: :btree
 
   create_table "followers", force: :cascade do |t|
-    t.string   "twitterHandle"
+    t.string   "twitterId"
     t.integer  "category_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   add_index "followers", ["category_id"], name: "index_followers_on_category_id", using: :btree

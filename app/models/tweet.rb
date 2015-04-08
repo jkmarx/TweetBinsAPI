@@ -8,7 +8,8 @@ class Tweet
       {
         userScreenname: getScreenname(tweet),
         text: getText(tweet),
-        created_at: getCreatedAt(tweet)
+        created_at: getCreatedAt(tweet),
+        userId: getUserId(tweet)
       }
     }
   end
@@ -23,6 +24,10 @@ class Tweet
 
   def self.getCreatedAt(string)
     string["created_at"]
+  end
+
+  def self.getUserId(string)
+    string["user"]["id"]
   end
 
 end

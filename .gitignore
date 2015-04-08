@@ -31,6 +31,7 @@ config/secrets.yml
 config/env.yml
 .env
 .envrc
+db/seeds.rb
 
 ## Environment normalisation:
 /.bundle
