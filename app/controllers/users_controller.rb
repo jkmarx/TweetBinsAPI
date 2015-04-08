@@ -1,3 +1,4 @@
+require Rails.root.join('lib/modules/OAuth')
 class UsersController < ApplicationController
   before_filter :authenticate, only: [:show, :update]
   before_action :set_user, only: [:show, :update, :destroy]

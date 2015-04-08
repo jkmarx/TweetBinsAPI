@@ -1,4 +1,5 @@
-class Tweet < ActiveModel::Model
+class Tweet
+  include ActiveModel::Model
 
   attr_accessor :tweets
 
@@ -16,11 +17,11 @@ class Tweet < ActiveModel::Model
     string["user"]["screen_name"]
   end
 
-  def getText(string)
+  def self.getText(string)
     string["text"]
   end
 
-  def getCreatedAt(string)
+  def self.getCreatedAt(string)
     string["created_at"]
   end
 

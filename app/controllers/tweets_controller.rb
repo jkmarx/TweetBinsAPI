@@ -1,7 +1,6 @@
-require Rails.root.join('lib/modules/TweetAuth')
-
+require "#{Rails.root}/lib/modules/TweetAuth.rb"
 class TweetsController < ApplicationController
-  before_filter :authenticate, only: [ :show, :create, :update, :destroy]
+  # before_filter :authenticate, only: [ :show, :create, :destroy]
 
   def index
     user = authenticate()
@@ -10,39 +9,14 @@ class TweetsController < ApplicationController
     @request = TweetAuth::AuthHeader.new(token)
 
     response = @request.request_data(TweetAuth::get_header_string(tokenSecret, @request.params),TweetAuth::get_base_url(),"GET")
-    byebug;
     if response.body
-      outTweets = filterTweets(JSON.parse(response.body)).to_json
+      outTweets = Tweet.filterTweets(JSON.parse(response.body)).to_json
 
       render json: outTweets, status: 200
     else
       render status: 401
     end
 
-  end
-
-  private
-
-  def filterTweets(data)
-    data.map{|tweet|
-      {
-        userScreen: getScreenname(tweet),
-        text: getText(tweet),
-        created_at: getCreatedAt(tweet)
-      }
-    }
-  end
-
-  def getScreenname(string)
-    string["user"]["screen_name"]
-  end
-
-  def getText(string)
-    string["text"]
-  end
-
-  def getCreatedAt(string)
-    string["created_at"]
   end
 
 end

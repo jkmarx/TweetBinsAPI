@@ -21,6 +21,7 @@ module TweetBinsAPI
 
     config.api_only = false
     config.autoload_paths << Rails.root.join('lib/modules')
+    config.autoload_paths += Dir["#{Rails.root}/lib/modules"]
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.

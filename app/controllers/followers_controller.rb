@@ -4,6 +4,7 @@ class FollowersController < ApplicationController
   # GET /followers
   # GET /followers.json
   def index
+    user = authenticate()
     @followers = Follower.all
 
     render json: @followers
