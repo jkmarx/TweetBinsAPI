@@ -56,6 +56,7 @@ GEM
       timers (~> 4.0.0)
     coderay (1.1.0)
     columnize (0.9.0)
+    dalli (2.7.4)
     diff-lcs (1.2.5)
     dotenv (2.0.1)
     dotenv-rails (2.0.1)
@@ -202,6 +203,7 @@ DEPENDENCIES
   active_model_serializers!
   activerecord-session_store
   bcrypt
+  dalli
   dotenv-rails
   guard
   guard-rails

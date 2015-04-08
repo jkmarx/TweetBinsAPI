@@ -13,6 +13,7 @@ gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 gem 'bcrypt'
 gem 'rack-ssl-enforcer'
 gem 'activerecord-session_store'
+gem 'dalli'
 
 group :development, :test do
   gem 'dotenv-rails'
