@@ -4,9 +4,9 @@ class Tweet
   attr_accessor :tweets
 
   def self.filterTweets(data)
-    data.map{|tweet|
+    JSON.parse(data).map{|tweet|
       {
-        userScreen: getScreenname(tweet),
+        userScreenname: getScreenname(tweet),
         text: getText(tweet),
         created_at: getCreatedAt(tweet)
       }
