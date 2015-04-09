@@ -1,3 +1,3 @@
 class CategorySerializer < ActiveModel::Serializer
-  attributes :id, :name, :followers
+  attributes :id, :name, :friends
 end

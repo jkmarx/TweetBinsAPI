@@ -1,7 +1,7 @@
-class Follower < ActiveRecord::Base
+class Friend < ActiveRecord::Base
   belongs_to :category
 
-  attr_accessor :followerIds
+  attr_accessor :friendIds
 
   def self.filterTweets(data)
     JSON.parse(data)["ids"]

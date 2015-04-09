@@ -2,8 +2,8 @@ module TweetAuth
   require 'net/http'
 
   def self.get_base_url(urlType)
-    if urlType == "followers"
-      "https://api.twitter.com/1.1/followers/ids.json"
+    if urlType == "friends"
+      "https://api.twitter.com/1.1/friends/ids.json"
     else
       "https://api.twitter.com/1.1/statuses/home_timeline.json"
     end
@@ -13,21 +13,25 @@ module TweetAuth
     CGI::escape(url)
   end
 
-  def self.get_signature_base_string(param_hash, urlType)
-      'GET' + "&" + TweetAuth::url_encode(TweetAuth::get_base_url(urlType)) + "&" + TweetAuth::url_encode(TweetAuth::collect_parameters(param_hash))
+  def self.get_signature_base_string(param_hash, urlType, query)
+      'GET' + "&" + TweetAuth::url_encode(TweetAuth::get_base_url(urlType)) +"&"+"#{query}" + TweetAuth::url_encode(TweetAuth::collect_parameters(param_hash))
   end
 
-  def self.create_signature(tokenSecret, param_hash, urlType)
-    Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha1'), TweetAuth::url_encode(ENV['TWITTER_CONSUMER_SECRET']) + "&#{tokenSecret}", TweetAuth::get_signature_base_string(param_hash, urlType))).gsub(/\n| |\r/,'')
+  def self.create_signature(tokenSecret, param_hash, urlType, query)
+    Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha1'), TweetAuth::url_encode(ENV['TWITTER_CONSUMER_SECRET']) + "&#{tokenSecret}", TweetAuth::get_signature_base_string(param_hash, urlType, query))).gsub(/\n| |\r/,'')
   end
+
+  #  def self.create_signature(tokenSecret, param_hash, urlType, query)
+  #   Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha1'), TweetAuth::url_encode('MCD8BKwGdgPHvAuvgvz4EQpqDAtx89grbuNMRd7Eh98') + "&#{tokenSecret}", TweetAuth::get_signature_base_string(param_hash, urlType, query))).gsub(/\n| |\r/,'')
+  # end
 
   def self.add_signature_to_params(hash,value)
     hash[:oauth_signature] = value
     hash
   end
 
-  def self.get_header_string(tokenSecret, param_hash, urlType)
-    hash = TweetAuth::add_signature_to_params(param_hash,TweetAuth::create_signature(tokenSecret,param_hash, urlType))
+  def self.get_header_string(tokenSecret, param_hash, urlType, query=nil)
+    hash = TweetAuth::add_signature_to_params(param_hash,TweetAuth::create_signature(tokenSecret,param_hash, urlType, query))
     header = "OAuth "
     hash.sort.each do |k,v|
       header << "#{k}=\"#{TweetAuth::url_encode(v)}\", "
@@ -56,14 +60,14 @@ module TweetAuth
         oauth_version: "1.0"
       }
     end
-    def request_data(header, base_uri, method, post_data=nil)
+    def request_data(header, base_uri, method, query=nil, post_data=nil)
       url = URI.parse(base_uri)
       http = Net::HTTP.new(url.host, 443)
       http.use_ssl = true
       if method == 'POST'
         response = http.post(base_uri, post_data, { 'Content-Type'=> '', 'Authorization' => header })
       else
-        response = http.get(url.to_s, { 'Authorization' => header })
+        response = http.get(url.to_s + query, { 'Authorization' => header })
       end
     end
   end
