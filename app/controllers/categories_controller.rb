@@ -1,12 +1,11 @@
 class CategoriesController < ApplicationController
   before_action :set_category, only: [:show, :update, :destroy]
+  before_filter :authenticate
 
 
   # GET /categories
   # GET /categories.json
   def index
-    byebug;
-    @user = User.first
     @categories = @user.categories
     render json: @categories
   end
@@ -21,6 +20,7 @@ class CategoriesController < ApplicationController
   # POST /categories.json
   def create
     @category = Category.new(category_params)
+    @category.user_id = @user.id
 
     if @category.save
       render json: @category, status: :created, location: @category

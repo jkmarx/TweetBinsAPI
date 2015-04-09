@@ -1,9 +1,9 @@
 require Rails.root.join('lib/modules/TweetAuth')
 class TweetsController < ApplicationController
-  # before_filter :authenticate, only: [ :index]
+   before_filter :authenticate, only: [ :index]
 
   def index
-    tweets = Rails.cache.read(User.first.token + "_tweets")
+    tweets = Rails.cache.read(@user.token + "_tweets")
     if tweets
       render json: tweets, status: 200
     else

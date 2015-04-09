@@ -13,12 +13,12 @@ module TweetAuth
     CGI::escape(url)
   end
 
-  def self.get_signature_base_string(param_hash, urlType, screen_name=nil)
-      'GET' + "&" + TweetAuth::url_encode(TweetAuth::get_base_url(urlType)) + "&" + TweetAuth::url_encode(TweetAuth::collect_parameters(param_hash)) + TweetAuth::url_encode("#{screen_name}")
+  def self.get_signature_base_string(param_hash, urlType)
+      'GET' + "&" + TweetAuth::url_encode(TweetAuth::get_base_url(urlType)) + "&" + TweetAuth::url_encode(TweetAuth::collect_parameters(param_hash))
   end
 
-  def self.create_signature(tokenSecret, param_hash, urlType, screen_name=nil)
-    Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha1'), TweetAuth::url_encode(ENV['TWITTER_CONSUMER_SECRET']) + "&#{tokenSecret}", TweetAuth::get_signature_base_string(param_hash, urlType, screen_name))).gsub(/\n| |\r/,'')
+  def self.create_signature(tokenSecret, param_hash, urlType)
+    Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha1'), TweetAuth::url_encode(ENV['TWITTER_CONSUMER_SECRET']) + "&#{tokenSecret}", TweetAuth::get_signature_base_string(param_hash, urlType))).gsub(/\n| |\r/,'')
   end
 
   def self.add_signature_to_params(hash,value)
@@ -26,8 +26,8 @@ module TweetAuth
     hash
   end
 
-  def self.get_header_string(tokenSecret, param_hash, urlType, screen_name=nil)
-    hash = TweetAuth::add_signature_to_params(param_hash,TweetAuth::create_signature(tokenSecret,param_hash, urlType,screen_name))
+  def self.get_header_string(tokenSecret, param_hash, urlType)
+    hash = TweetAuth::add_signature_to_params(param_hash,TweetAuth::create_signature(tokenSecret,param_hash, urlType))
     header = "OAuth "
     hash.sort.each do |k,v|
       header << "#{k}=\"#{TweetAuth::url_encode(v)}\", "
