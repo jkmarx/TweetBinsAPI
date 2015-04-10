@@ -1,6 +1,6 @@
 require Rails.root.join('lib/modules/TweetAuth')
 class FriendsController < ApplicationController
-  before_action :set_friend, only: [:show, :update, :destroy]
+  before_action :set_friend, only: [:show, :update]
    before_filter :authenticate, only: [ :index]
   # GET /friends
   # GET /friends.json
@@ -31,8 +31,8 @@ class FriendsController < ApplicationController
   # POST /friends
   # POST /friends.json
   def create
-    @friend = Follower.new(friend_params)
-
+    @friend = Friend.new(friend_params)
+    byebug;
     if @friend.save
       render json: @friend, status: :created, location: @friend
     else
@@ -43,12 +43,20 @@ class FriendsController < ApplicationController
   # PATCH/PUT /friends/1
   # PATCH/PUT /friends/1.json
   def update
-    @friend = Follower.find(params[:id])
+    @friend = Friend.find(params[:id])
 
-    if @friend.update(friend_params)
-      head :no_content
+    if params[:category_id]
+      @category = Category.find(params[:category_id])
+      unless @category.friends.include? @friend
+        @category.friends << @friend
+      end
+      render json: @category.friends, status: :ok
     else
-      render json: @friend.errors, status: :unprocessable_entity
+      if @friend.update(friend_params)
+        head :no_content
+      else
+        render json: @friend.errors, status: :unprocessable_entity
+      end
     end
   end
 
@@ -63,7 +71,7 @@ class FriendsController < ApplicationController
   private
 
     def set_friend
-      @friend = Follower.find(params[:id])
+      @friend = Friend.find(params[:id])
     end
 
     def friend_params

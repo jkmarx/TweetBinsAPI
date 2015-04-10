@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :users, defaults: {format: :json}, except: [:index, :new, :edit]
 
-  resources :followers, only: [:index]
+  resources :friends, only: [:show, :create, :update]
 
   post '/login', to: 'users#login'
   get '/logout', to: 'users#logout'

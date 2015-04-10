@@ -1,1 +1,1 @@
-Rails.application.config.session_store ActionDispatch::Session::CacheStore, :expire_after => 5.minutes
+Rails.application.config.session_store ActionDispatch::Session::CacheStore, :expire_after => 15.minutes
