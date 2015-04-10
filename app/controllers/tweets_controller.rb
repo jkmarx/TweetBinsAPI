@@ -3,7 +3,7 @@ class TweetsController < ApplicationController
    before_filter :authenticate, only: [ :index]
 
   def index
-    tweets = Rails.cache.read(@user.token + "_tweetsJ")
+    tweets = Rails.cache.read(@user.token + "_tweets")
     if tweets
       render json: tweets, status: 200, root: false
     else
@@ -11,7 +11,7 @@ class TweetsController < ApplicationController
       response = @request.request_data(TweetAuth::get_header_string(get_tokenSecret(), @request.params, "tweets", "count%3D200%26"),TweetAuth::get_base_url("tweets"),"GET", "?count=200")
       if (response.body.include? "200")
         outTweets = Tweet.filterTweets(response.body).to_json
-        Rails.cache.write(User.first.token + "_tweetsJ", outTweets, {expires_in: 15.minutes})
+        Rails.cache.write(@user.token + "_tweets", outTweets, {expires_in: 15.minutes})
         render json: outTweets, status: 200, root: false
       else
         render json: response, status: 401
