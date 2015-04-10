@@ -1,6 +1,6 @@
 require Rails.root.join('lib/modules/OAuth')
 class UsersController < ApplicationController
-  before_filter :authenticate, only: [:show, :update]
+  before_filter :authenticate, only: [:logout, :show, :update]
   before_action :set_user, only: [:show, :update, :destroy]
 
   def login
@@ -10,6 +10,11 @@ class UsersController < ApplicationController
     else
       head :unauthorized
     end
+  end
+
+  def logout
+    @user.update(accessToken: "", tokenSecret: "")
+    head :ok
   end
 
   # GET /users/1
@@ -22,9 +27,9 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-
+    byebug;
     if @user.save
-      render json: {token: @user.token, twitterUsername: @user.twitterUsername}, status: :created, location: @user
+      render json: {token: @user.token, twitterUsername: @user.twitterUsername}, status: :created
     else
       render json: {message: 'failed'}, status: 500
     end

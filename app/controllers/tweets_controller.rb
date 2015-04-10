@@ -33,5 +33,3 @@ class TweetsController < ApplicationController
     end
 
 end
-
-# curl --get 'https://api.twitter.com/1.1/statuses/home_timeline.json' --data 'count=200' --header 'Authorization: OAuth oauth_consumer_key="fZcUdPbYdkEu64csHixN5dMjM", oauth_nonce="f3f24cf58d044d4ba46d8d3318420675", oauth_signature="Os4Mubg5k56FLYoFfOoJ0FK2uZA%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1428554817", oauth_token="2993886084-gXAyKxFEm8TjcKNFx0zVwD1b3UhPxeRqdSYRSBO", oauth_version="1.0"' --verbose

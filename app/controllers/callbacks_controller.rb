@@ -19,7 +19,7 @@ class CallbacksController < ApplicationController
 
     if(response.code == "200" || response.message == "OK")
       setUser(response.body)
-      redirect_to "http://localhost:9000/#/loginApp"
+      redirect_to "http://localhost:9000/#/dashboard"
     else
       redirect_to "http://localhost:9000/#/login"
     end

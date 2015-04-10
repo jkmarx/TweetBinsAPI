@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :users, defaults: {format: :json}, except: [:index, :new, :edit]
+  resources :users, defaults: {format: :json}, only: [:create, :edit]
 
   resources :friends, only: [:show, :create, :update]
 

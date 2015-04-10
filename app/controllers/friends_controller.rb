@@ -32,7 +32,6 @@ class FriendsController < ApplicationController
   # POST /friends.json
   def create
     @friend = Friend.new(friend_params)
-    byebug;
     if @friend.save
       render json: @friend, status: :created, location: @friend
     else
