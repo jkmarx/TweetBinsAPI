@@ -14,6 +14,8 @@ gem 'bcrypt'
 gem 'rack-ssl-enforcer'
 gem 'activerecord-session_store'
 gem 'dalli'
+gem 'tzinfo'
+gem 'tzinfo-data'
 
 group :development, :test do
   gem 'dotenv-rails'
