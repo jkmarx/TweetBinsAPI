@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   has_many :categories, dependent: :destroy
-  has_many :fave_tweets, dependent: :destroy
+  has_many :save_tweets, dependent: :destroy
 
 
   has_secure_password

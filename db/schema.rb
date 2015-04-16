@@ -25,17 +25,6 @@ ActiveRecord::Schema.define(version: 20150410071111) do
 
   add_index "categories", ["user_id"], name: "index_categories_on_user_id", using: :btree
 
-  create_table "fave_tweets", force: :cascade do |t|
-    t.string   "userScreenname"
-    t.string   "text"
-    t.string   "userId"
-    t.integer  "user_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-  end
-
-  add_index "fave_tweets", ["user_id"], name: "index_fave_tweets_on_user_id", using: :btree
-
   create_table "friends", force: :cascade do |t|
     t.string   "twitterId"
     t.integer  "category_id"
@@ -44,6 +33,18 @@ ActiveRecord::Schema.define(version: 20150410071111) do
   end
 
   add_index "friends", ["category_id"], name: "index_friends_on_category_id", using: :btree
+
+  create_table "save_tweets", force: :cascade do |t|
+    t.string   "userScreenname"
+    t.string   "text"
+    t.string   "userId"
+    t.string   "profile_image_url"
+    t.datetime "created_at",        null: false
+    t.integer  "user_id"
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "save_tweets", ["user_id"], name: "index_save_tweets_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
@@ -57,6 +58,6 @@ ActiveRecord::Schema.define(version: 20150410071111) do
   end
 
   add_foreign_key "categories", "users"
-  add_foreign_key "fave_tweets", "users"
   add_foreign_key "friends", "categories"
+  add_foreign_key "save_tweets", "users"
 end

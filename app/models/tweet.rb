@@ -24,7 +24,7 @@ class Tweet
   end
 
   def self.getProfileImageUrl(string)
-    string["profile_image_url"]
+    string["user"]["profile_image_url"]
   end
 
   def self.getCreatedAt(string)

@@ -62,6 +62,7 @@ class FriendsController < ApplicationController
   # DELETE /friends/1
   # DELETE /friends/1.json
   def destroy
+    @friend = Friend.find_by twitterId: (params[:twitterId])
     @friend.destroy
 
     head :no_content

@@ -10,7 +10,7 @@ User.delete_all
 Category.delete_all
 Friend.delete_all
 
-user1 = User.create!(twitterUsername: "jenniferkmarx", email: 'jennifer@fake.com', password: '')
+user1 = User.create!(twitterUsername: "jenniferkmarx", email: 'jennifer@fake.com', password: '12345678')
 
 cat1 = Category.create!(name: "Friends", user_id:user1.id)
 cat2 = Category.create!(name: "Networking", user_id:user1.id)
