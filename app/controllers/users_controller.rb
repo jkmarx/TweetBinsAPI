@@ -1,7 +1,7 @@
 require Rails.root.join('lib/modules/OAuth')
 class UsersController < ApplicationController
-  before_filter :authenticate, only: [:logout, :show, :update]
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_filter :authenticate, only: [:logout, :show, :update, :destroy]
+  # before_action :set_user, only: [:show, :update, :destroy]
 
   def login
     @user = User.find_by(email: params[:email])
@@ -20,14 +20,13 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    render json: @user, status: 200
+    render json: {twitterUsername: @user.twitterUsername, email: @user.email}, status: 200
   end
 
   # POST /users
   # POST /users.json
   def create
     @user = User.new(user_params)
-    byebug;
     if @user.save
       render json: {token: @user.token, twitterUsername: @user.twitterUsername}, status: :created
     else
@@ -38,8 +37,6 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    @user = User.find(params[:id])
-
     if @user.update(user_params)
       render json: {token: @user.token, twitterUsername: @user.twitterUsername}, status: :ok
     else
@@ -56,9 +53,9 @@ class UsersController < ApplicationController
 
   private
 
-    def set_user
-      @user = User.find(params[:id])
-    end
+    # def set_user
+    #   @user = User.find_by email: (params[:email])
+    # end
 
     def user_params
       params.require(:user).permit(:twitterUsername, :email,:password, :token, :accessToken, :tokenSecret)

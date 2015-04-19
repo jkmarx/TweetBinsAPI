@@ -15,11 +15,11 @@ class CallbacksController < ApplicationController
     oauth_verifier = fullpath.match(/oauth_verifier=\w+/)[0]
     @request = OAuth::AccessToken.new({params: token_params + '&' + oauth_verifier})
     response = @request.request_data(OAuth::get_header_string('access_token',@request.params), OAuth::get_base_url('access_token'),
-      'POST',@request.data)
+                                     'POST',@request.data)
 
     if(response.code == "200" || response.message == "OK")
       setUser(response.body)
-      redirect_to "http://localhost:9000/#/dashboard"
+      redirect_to "http://localhost:9000/#/tweets"
     else
       redirect_to "http://localhost:9000/#/login"
     end

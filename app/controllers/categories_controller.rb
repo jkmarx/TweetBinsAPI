@@ -35,7 +35,7 @@ class CategoriesController < ApplicationController
     @category = Category.find(params[:id])
 
     if @category.update(category_params)
-      head :no_content
+      render json: @category, status: 200
     else
       render json: @category.errors, status: :unprocessable_entity
     end

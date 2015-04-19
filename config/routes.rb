@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :save_tweets, except: [:new, :edit]
-  resources :users, defaults: {format: :json}, only: [:create, :edit]
+
+  delete 'users' => 'users#destroy'
+  get 'users' => 'users#show'
+  post 'users/update' => 'users#update'
+  resources :users, defaults: {format: :json}, only: [:create]
 
   resources :friends, only: [:show, :create, :update]
   resources :friends, param: :twitterId, only: :destroy
