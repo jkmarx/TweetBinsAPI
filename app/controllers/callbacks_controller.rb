@@ -19,9 +19,9 @@ class CallbacksController < ApplicationController
 
     if(response.code == "200" || response.message == "OK")
       setUser(response.body)
-      redirect_to "http://localhost:9000/#/tweets"
+      redirect_to "http://jkmarx.github.io/TweetBinsApp/#/tweets"
     else
-      redirect_to "http://localhost:9000/#/login"
+      redirect_to "http://jkmarx.github.io/TweetBinsApp/#/login"
     end
   end
 
