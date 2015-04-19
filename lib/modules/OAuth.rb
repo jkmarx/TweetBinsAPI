@@ -44,7 +44,7 @@ module OAuth
       @consumer_key = ENV['TWITTER_CONSUMER_KEY']
       @consumer_secret = ENV['TWITTER_CONSUMER_SECRET']
       @timestamp = Time.now.utc.to_i.to_s
-      @callback = 'http://localhost:3000/callbacks/twitter'
+      @callback = 'https://tweetstreams.herokuapp.com/callbacks/twitter'
       @params = {
         oauth_callback: "#{@callback}",
         oauth_consumer_key: "#{ENV['TWITTER_CONSUMER_KEY']}",
