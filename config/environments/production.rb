@@ -3,7 +3,7 @@ Rails.application.configure do
 
   # Code is not reloaded between requests.
   config.cache_classes = true
-  config.cache_store = :dalli_store, nil, { :namespace => tweetstreams, :expires_in => 5.minutes, :compress => true }
+  config.cache_store = :dalli_store, nil, { :namespace => TweetBinsAPI, :expires_in => 5.minutes, :compress => true }
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
