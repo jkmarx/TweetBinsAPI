@@ -1,7 +1,7 @@
 require Rails.root.join('lib/modules/TweetAuth')
 class FriendsController < ApplicationController
   before_action :set_friend, only: [:show, :update]
-   before_filter :authenticate, only: [ :index]
+   before_filter :authenticate
   # GET /friends
   # GET /friends.json
   def index

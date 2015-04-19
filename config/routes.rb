@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :save_tweets, except: [:new, :edit]
+  resources :save_tweets, except: [:new, :edit, :update]
 
   delete 'users' => 'users#destroy'
   get 'users' => 'users#show'
@@ -12,17 +12,13 @@ Rails.application.routes.draw do
   post '/login', to: 'users#login'
   get '/logout', to: 'users#logout'
 
- # get '/user/:twitterUsername', to: "users#show"
 
- match '/callbacks' => 'callbacks#request_token', via: [:get,:post]
+  match '/callbacks' => 'callbacks#request_token', via: [:get,:post]
 
- match '/callbacks/twitter' => 'callbacks#twitter_callback', via: [:get, :post]
+  match '/callbacks/twitter' => 'callbacks#twitter_callback', via: [:get, :post]
 
-resources :sessions, only: [:create, :destroy]
- match '/signout' => 'sessions#destroy', via: [:get, :post]
+  resources :categories
 
-resources :categories
-
-match '/tweets' => 'tweets#index', via: [:get]
+  match '/tweets' => 'tweets#index', via: [:get]
 
 end
