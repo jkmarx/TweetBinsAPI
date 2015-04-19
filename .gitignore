@@ -14,7 +14,6 @@
 capybara-*.html
 /log
 **.log
-*secrets.yml
 /tmp
 /db/*.sqlite3
 /db/*.sqlite3-journal
@@ -27,7 +26,6 @@ pickle-email-*.html
 
 # TODO Comment out these rules if you are OK with secrets being uploaded to the repo
 config/initializers/secret_token.rb
-config/secrets.yml
 config/env.yml
 .env
 .envrc
