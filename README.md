@@ -1,7 +1,7 @@
 # tweet-bins-app
 
-[TweetStreams App Code](https://github.com/jkmarx/TweetBinsApp)
-[TweetStreams Api Code](https://github.com/jkmarx/TweetBinsAPI)
+* [TweetStreams App Code](https://github.com/jkmarx/TweetBinsApp)
+* [TweetStreams Api Code](https://github.com/jkmarx/TweetBinsAPI)
 
 The TweetStreams project was created to meet the requirements for Project 3 of Boston-General Assembly's Web Development Immersive in April 2015. It uses a Rails API and an Angular front-end.
 
